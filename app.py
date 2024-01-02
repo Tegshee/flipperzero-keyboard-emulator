@@ -17,7 +17,7 @@ log.basicConfig(level=log.DEBUG, format='%(asctime)s - %(levelname)s - %(message
 keyboard_layout = [
     ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '0', '1', '2', '3'],
     ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', '-', '4', '5', '6'],
-    ['z', 'x', 'c', 'v', 'b', 'n', 'm', ' ', '#', '7', '8', '9'],
+    ['+', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ' ', '#', '7', '8', '9'],
 ]
 
 def find_index_of_character(character):
@@ -40,23 +40,22 @@ def navigate_to_character(character):
 
 def move_left():
     log.debug("Moving left")
-    #also can use keyboard.press_and_release('left') its just gamming vibe :D
-    keyboard.press_and_release('a')
+    keyboard.press_and_release('left')
     time.sleep(PRESS_INTERVAL)
 
 def move_right():
     log.debug("Moving right")
-    keyboard.press_and_release('d')
+    keyboard.press_and_release('right')
     time.sleep(PRESS_INTERVAL)
 
 def move_up():
     log.debug("Moving up")
-    keyboard.press_and_release('w')    
+    keyboard.press_and_release('up')    
     time.sleep(PRESS_INTERVAL)
 
 def move_down():
     log.debug("Moving down")
-    keyboard.press_and_release('s')  
+    keyboard.press_and_release('down')  
     time.sleep(PRESS_INTERVAL)
     
 def zeroing_position(position):
@@ -161,15 +160,33 @@ def google_authenticator():
         emulate_word(keywords[1]) # emulate secret
 
     #click to confirm button
-    press_multiple(5, 's')
+    press_multiple(5, 'down')
     press_enter()
+
+
+def save_single_secret(title, secret):
+    # enter to add new totp screenand enter to new token field and enter to name field
+    press_multiple(3, 'enter')
+    
+    emulate_word(title) # emulate name
+    #move to secret field
+    move_down()
+    press_enter()
+    
+    emulate_word(secret) # emulate secret
+
+    #click to confirm button
+    press_multiple(5, 'down')
+    press_enter()
+
 
 def main():
     # Wait for 3 seconds to give time to switch to the flipper APP
     time.sleep(3)
 
     # Start the process
-    google_authenticator()    
+    # google_authenticator()
+    # save_single_secret("example", "SECRETSECRET")
 
 
 if __name__ == "__main__":
